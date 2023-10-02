@@ -11,6 +11,7 @@ __credits__ = [
 
 import socket as s
 import time
+import threading
 
 # Configure logging
 import logging
@@ -51,7 +52,7 @@ def main():
   server_socket.bind(('',server_port))
   
   # Configure how many requests can be queued on the server at once
-  server_socket.listen(1)
+  server_socket.listen(2)
   
   # Alert user we are now online
   log.info("The server is ready to receive on port " + str(server_port))
