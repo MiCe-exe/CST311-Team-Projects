@@ -24,41 +24,57 @@ serverMsg = "X: \"\", Y: \"\""
 counter = 0
 MAX = 2
 clientList = []
+#lock = threading.Lock()
 
 def debugPrt(msg):
-    print(str(msg))
+    print("[[|||||| Thread:" + str(msg))
 
 def connection_handler(connection_socket):
     # Old code
+    global clientList
+
     query = connection_socket.recv(1024)
     query_decoded = query.decode()
     log.info("Recieved query test \"" + str(query_decoded) + "\"")
-    time.sleep(5)
+    #time.sleep(5)
     # response = query_decoded.upper()
     # connection_socket.send(response.encode())
     # connection_socket.close()
-
-    
+    id = clientList.index(connection_socket)
+    debugPrt(id)
     client = threading.Thread(target=msgThread, args=(query_decoded, id))
-
+    
+    debugPrt(id)
     client.start()
 
-    time.sleep(5)
-
+    #time.sleep(1)
+    debugPrt(id)
     client.join()
-
+    debugPrt(id)
     connection_socket.send(serverMsg.encode())
     connection_socket.close()
-
+    debugPrt(id)
     # while True:
     #     if t.active_count() >= MAX:
     #         t.Thread.join()
 
 def msgThread(msg, id):
-    
+    global serverMsg
+    debugPrt(str(id) + " msg")
+    if id == 0:
+        serverMsg = serverMsg[:4] + msg + serverMsg[4:]
+        debugPrt(str(id) + " msg")
+        #time.sleep(10)
+    elif id == 1:
+        debugPrt(str(id) + " msg")
+        serverMsg = serverMsg[:(len(serverMsg)-1)] + msg + serverMsg[(len(serverMsg)-1):]
+    else:
+        serverMsg = serverMsg + ", " + str(id) + ":{}".format(msg)
+    debugPrt(str(id) + " msg")
 
 def main():
     global clientList
+    #global lock
 
     server_socket = s.socket(s.AF_INET, s.SOCK_STREAM)
 
