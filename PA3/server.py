@@ -67,10 +67,6 @@ def cThread(connection_socket, address, userID):
   
   #time.sleep(10)
   connection_socket.send(serverMsg.encode())
-  global counter
-  counter -= 1
-
-  #connection_socket.close()
   
 
 def main():
@@ -104,7 +100,7 @@ def main():
       clientThreadY.start()
       clientThreadX.start()
 
-      #time.sleep(2)
+      time.sleep(2)
 
       clientThreadX.join()
       clientThreadY.join()
