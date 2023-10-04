@@ -1,11 +1,11 @@
 #!env python
 
 """Chat server for CST311 Programming Assignment 3"""
-__author__ = "[team name here]"
+__author__ = "Team 8"
 __credits__ = [
-  "Your",
-  "Names",
-  "Here"
+  "Michael Cervantes",
+  "Jerry Do",
+  "Ramo Tucakovic"
 ]
 
 import socket as s
