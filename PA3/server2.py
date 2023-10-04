@@ -30,36 +30,35 @@ counter = 0
 MAX = 2
 clientList = []
 #msgQueue = []
+threadQueue = []
+
+lock = threading.Lock()
+counter = 0
 
 # connection handler for each client that is created.
 # from here we can use multi Threading to access the messaging queue
 def connection_handler(connection_socket):
     global clientList
     global MAX
+    global lock
 
+    lock.acquire()
     query = connection_socket.recv(1024)
+    lock.release()
     query_decoded = query.decode()
     log.info("Recieved query test \"" + str(query_decoded) + "\"")
 
     # Get client ID, Client X = 0, client Y = 1
     id = clientList.index(connection_socket)
     
-    client = threading.Thread(target=msgThread, args=(query_decoded, id))
-
-    client.start()
-
-    time.sleep(1)
-
-    client.join()
-
-    # connection_socket.send(serverMsg.encode())
-    # connection_socket.close()
-
+    msgThread(query_decoded, id)
 
 def msgThread(msg, id):
     global serverMsg
+    global lock
 
     # message from both clients merged.
+    #lock.acquire()
     if id == 0:
         serverMsg = serverMsg[:4] + msg + serverMsg[4:]
         time.sleep(10)
@@ -71,7 +70,8 @@ def msgThread(msg, id):
 
 def main():
     global clientList
-    global lock
+    #global lock
+    global threadQueue
 
     server_socket = s.socket(s.AF_INET, s.SOCK_STREAM)
 
@@ -85,15 +85,20 @@ def main():
         while True:
             connection_socket, address = server_socket.accept()
             log.info("connected to client at " + str(address))
-
             clientList.append(connection_socket)
 
             if len(clientList) >= MAX:
                 break
 
         for i in clientList:
-            connection_handler(i)
-        
+            #connection_handler(i)
+            threadQueue.append(threading.Thread(target=connection_handler(i)))
+
+        for i in threadQueue:
+            i.start()
+            time.sleep(1)
+            i.join()
+
         #close connections and send msg
         for i in clientList:
             i.send(serverMsg.encode())
