@@ -41,36 +41,32 @@ def connection_handler(connection_socket):
     # connection_socket.send(response.encode())
     # connection_socket.close()
     id = clientList.index(connection_socket)
-    debugPrt(id)
+    
     client = threading.Thread(target=msgThread, args=(query_decoded, id))
     
-    debugPrt(id)
     client.start()
 
     #time.sleep(1)
-    debugPrt(id)
+
     client.join()
-    debugPrt(id)
+
     connection_socket.send(serverMsg.encode())
     connection_socket.close()
-    debugPrt(id)
+
     # while True:
     #     if t.active_count() >= MAX:
     #         t.Thread.join()
 
 def msgThread(msg, id):
     global serverMsg
-    debugPrt(str(id) + " msg")
+
     if id == 0:
         serverMsg = serverMsg[:4] + msg + serverMsg[4:]
-        debugPrt(str(id) + " msg")
         #time.sleep(10)
     elif id == 1:
-        debugPrt(str(id) + " msg")
         serverMsg = serverMsg[:(len(serverMsg)-1)] + msg + serverMsg[(len(serverMsg)-1):]
     else:
         serverMsg = serverMsg + ", " + str(id) + ":{}".format(msg)
-    debugPrt(str(id) + " msg")
 
 def main():
     global clientList
