@@ -22,14 +22,16 @@ def myNetwork():
                       protocol='tcp',
                       port=6633)
 
-    info( '*** Add switches\n')
-    r5 = net.addHost('r5', cls=Node, ip='0.0.0.0')
-    r5.cmd('sysctl -w net.ipv4.ip_forward=1')
+    
     s2 = net.addSwitch('s2', cls=OVSKernelSwitch)
     s1 = net.addSwitch('s1', cls=OVSKernelSwitch)
-    r4 = net.addHost('r4', cls=Node, ip='0.0.0.0')
+
+    info( '*** Add switches\n')
+    r5 = net.addHost('r5', cls=Node, ip='10.0.1.1/24')  #IP assignment
+    r5.cmd('sysctl -w net.ipv4.ip_forward=1')
+    r4 = net.addHost('r4', cls=Node, ip='10.0.2.1/24')  #IP assignment
     r4.cmd('sysctl -w net.ipv4.ip_forward=1')
-    r3 = net.addHost('r3', cls=Node, ip='0.0.0.0')
+    r3 = net.addHost('r3', cls=Node, ip='10.0.3.1/24')  #IP assignment
     r3.cmd('sysctl -w net.ipv4.ip_forward=1')
 
     info( '*** Add hosts\n')
