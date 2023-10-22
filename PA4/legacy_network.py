@@ -22,32 +22,38 @@ def myNetwork():
                       protocol='tcp',
                       port=6633)
 
-    
+    #switches
     s2 = net.addSwitch('s2', cls=OVSKernelSwitch)
     s1 = net.addSwitch('s1', cls=OVSKernelSwitch)
 
     info( '*** Add switches\n')
-    r5 = net.addHost('r5', cls=Node, ip='10.0.1.1/24')  #IP assignment
+    r5 = net.addHost('r5', cls=Node, ip='10.0.2.0/24')  #IP assignment
     r5.cmd('sysctl -w net.ipv4.ip_forward=1')
-    r4 = net.addHost('r4', cls=Node, ip='10.0.2.1/24')  #IP assignment
+
+    r4 = net.addHost('r4', cls=Node, ip='192.168.0.0/30')  #IP assignment
     r4.cmd('sysctl -w net.ipv4.ip_forward=1')
-    r3 = net.addHost('r3', cls=Node, ip='10.0.3.1/24')  #IP assignment
+
+    r3 = net.addHost('r3', cls=Node, ip='10.0.1.0/24')  #IP assignment
     r3.cmd('sysctl -w net.ipv4.ip_forward=1')
 
     info( '*** Add hosts\n')
-    h1 = net.addHost('h1', cls=Host, ip='10.0.0.1', defaultRoute=None)
-    h2 = net.addHost('h2', cls=Host, ip='10.0.0.2', defaultRoute=None)
-    h3 = net.addHost('h1', cls=Host, ip='10.0.0.3', defaultRoute=None)
-    h4 = net.addHost('h2', cls=Host, ip='10.0.0.4', defaultRoute=None)
+    h1 = net.addHost('h1', cls=Host, ip='10.0.1.0/24', defaultRoute=None)
+    h2 = net.addHost('h2', cls=Host, ip='10.0.1.0/24', defaultRoute=None)
+    h3 = net.addHost('h3', cls=Host, ip='10.0.2.0/24', defaultRoute=None)
+    h4 = net.addHost('h4', cls=Host, ip='10.0.2.0/24', defaultRoute=None)
 
     info( '*** Add links\n')
     net.addLink(h1, s1)
     net.addLink(h2, s1)
+
     net.addLink(h3, s2)
     net.addLink(h4, s2)
+
     net.addLink(s2, r5)
     net.addLink(s1, r3)
+
     net.addLink(r3, r4)
+    
     net.addLink(r4, r5)
 
     info( '*** Starting network\n')
