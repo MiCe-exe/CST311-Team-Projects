@@ -1,6 +1,6 @@
 #!env python
 
-"""Chat server for CST311 Programming Assignment 3"""
+"""Chat server for CST311 Programming Assignment 4"""
 __author__ = "Team 8"
 __credits__ = [
   "Michael Cervantes",
@@ -18,7 +18,7 @@ log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)
 
 # Set global variables
-server_name = '10.0.3.1'
+server_name = '10.0.0.1'
 server_port = 12000
 
 def main():

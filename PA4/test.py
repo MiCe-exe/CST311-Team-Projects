@@ -1,4 +1,11 @@
 #!/usr/bin/python
+"""Chat server for CST311 Programming Assignment 3"""
+__author__ = "Team 8"
+__credits__ = [
+  "Michael Cervantes",
+  "Jerry Do",
+  "Ramo Tucakovic"
+]
 
 from mininet.net import Mininet
 from mininet.node import Controller, RemoteController, OVSController
@@ -79,10 +86,10 @@ def myNetwork():
 
     info( '*** Post configure switches and hosts\n')
     #subprocess.call(["python3", "certificate_authority.py"])
-    #makeTerm(h2, "tlswebserver", "xterm", None, "python3 TLS_web_server.py")
-    #makeTerm(h4, "tlswebserver", "xterm", None, "python3 ModifiedServer.py")
-    #makeTerm(h2, "tlswebserver", "xterm", None, "python3 ModifiedServer.py")
-    #makeTerm(h2, "tlswebserver", "xterm", None, "python3 ModifiedClient.py")
+    #makeTerm(h2, "tlswebserver", "xterm", None, "python3 PA4_TLS_web_server.py")
+    #makeTerm(h4, "tlswebserver", "xterm", None, "python3 PA4_ModifiedServer.py")
+    #makeTerm(h2, "tlswebserver", "xterm", None, "python3 PA4_ModifiedServer.py")
+    #makeTerm(h2, "tlswebserver", "xterm", None, "python3 PA4_ModifiedClient.py")
     CLI(net)
     net.stop()
 
