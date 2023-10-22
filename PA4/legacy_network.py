@@ -80,7 +80,11 @@ def myNetwork():
     net.get('s1').start([c0])
 
     info( '*** Post configure switches and hosts\n')
-
+    #subprocess.call(["python3", "certificate_authority.py"])
+    #makeTerm(h2, "tlswebserver", "xterm", None, "python3 PA4_TLS_web_server.py")
+    #makeTerm(h4, "tlswebserver", "xterm", None, "python3 PA4_ModifiedServer.py")
+    #makeTerm(h2, "tlswebserver", "xterm", None, "python3 PA4_ModifiedServer.py")
+    #makeTerm(h2, "tlswebserver", "xterm", None, "python3 PA4_ModifiedClient.py")
     CLI(net)
     net.stop()
 
